@@ -1,8 +1,8 @@
 {
-  "name": "vue-js-vite",
+  "name": "vue-cash-flow",
   "version": "0.0.0",
   "private": true,
-  "homepage": "https://M8-Babbage.github.io/Vue-JS-Vite/",
+  "homepage": "https://M8-Babbage.github.io/Vue-Cash-Flow/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
