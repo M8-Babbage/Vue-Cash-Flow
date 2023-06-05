@@ -5,8 +5,12 @@
     </template>
     <template #resume>
       <Resume :label="label" :totalLabel="'Ahorro total'" :totalAmount="99999999" :amount="100000">
-        <template #graphic>Gráficos</template>
-        <template #action>Acciones</template>
+        <template #graphic>
+          <Graphic :amounts="amounts" />
+        </template>
+        <template #action>
+          <Action />
+        </template>
       </Resume>
     </template>
     <template #movements>
@@ -16,10 +20,12 @@
 </template>
 
 <script setup>
+import Action from '@/commons/Action.vue';
 import Header from '@/commons/Header.vue';
 import Layout from '@/commons/Layout.vue';
 import Movements from '@/commons/Movements.vue';
 import Resume from '@/commons/Resume.vue';
+import Graphic from '../commons/Graphic.vue';
 
 const label = 'Label'
 
@@ -30,6 +36,8 @@ const movements = [
   { id: 4, title: "Movimiento 4", description: "Colegiatura", amount: 1000 },
   { id: 5, title: "Movimiento 5", description: "Reparación equipo", amount: 1000 },
 ]
+
+const amounts = [100, 200, 500, 200, -400, -600, -300, 0, 300, 500]
 
 </script>
 <style scoped>
