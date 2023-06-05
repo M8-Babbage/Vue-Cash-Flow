@@ -3,13 +3,15 @@
     <h2 class="title">Historial</h2>
     <div class="content">
       <Movement v-for="{ id, title, description, amount } in movements" :key="id" :id="id" :title="title"
-        :description="description" :amount="amount" @onRemove="onRemove" />
+        :description="description" :amount="amount" @onRemove="onRemove(id)" />
     </div>
   </div>
 </template>
 <script setup>
 import { toRefs } from 'vue';
 import Movement from './Movement.vue';
+
+const emits = defineEmits(['onRemove'])
 
 const props = defineProps({
   movements: {
@@ -25,7 +27,7 @@ const { movements } = toRefs(props)
 // Escuchamos el evento "onRemove" con el id del movimiento a eliminar
 const onRemove = (id) => {
   // Emitimos el evento "onRemove" con el id del movimiento a eliminar
-  console.log('Movements.vue', id);
+  emits('onRemove', id)
 }
 
 </script>

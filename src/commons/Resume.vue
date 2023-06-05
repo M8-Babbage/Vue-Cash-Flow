@@ -1,6 +1,6 @@
 <template>
   <main>
-    <p>{{ labelVisual }}</p>
+    <p>{{ label }}</p>
     <h1>{{ amountCurrency }}</h1>
     <div class="graphic">
       <slot name="graphic"></slot>
@@ -20,10 +20,6 @@ const props = defineProps(
       type: String,
       default: null,
     },
-    totalLabel: {
-      type: String,
-      required: true
-    },
     amount: {
       type: Number,
       default: null,
@@ -36,12 +32,7 @@ const props = defineProps(
 )
 
 // Crear referencias reactivas a las propiedades
-const { label, totalLabel, amount, totalAmount } = toRefs(props)
-
-// Definir el label a mostrar
-const labelVisual = computed(() => {
-  return label.value !== null ? label.value : totalLabel.value;
-})
+const { label, amount, totalAmount } = toRefs(props)
 
 // Formatear el monto a moneda local
 const amountCurrency = computed(() => {

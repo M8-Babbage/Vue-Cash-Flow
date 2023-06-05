@@ -4,17 +4,17 @@
       <Header />
     </template>
     <template #resume>
-      <Resume :label="label" :totalLabel="'Ahorro total'" :totalAmount="99999999" :amount="100000">
+      <Resume :label="'Ahorro total'" :totalAmount="totalAmount" :amount="amount">
         <template #graphic>
-          <Graphic :amounts="amounts" />
+          <Graphic :amounts="amounts" @select="select" />
         </template>
         <template #action>
-          <Action />
+          <Action @create="create" />
         </template>
       </Resume>
     </template>
     <template #movements>
-      <Movements :movements="movements" />
+      <Movements @onRemove="remove" :movements="movements" />
     </template>
   </Layout>
 </template>
@@ -25,19 +25,121 @@ import Header from '@/commons/Header.vue';
 import Layout from '@/commons/Layout.vue';
 import Movements from '@/commons/Movements.vue';
 import Resume from '@/commons/Resume.vue';
+import { computed, reactive, ref } from 'vue';
 import Graphic from '../commons/Graphic.vue';
 
-const label = 'Label'
+let amount = ref(0);
 
-const movements = [
-  { id: 1, title: "Movimiento", description: "Deposito de salario", amount: 1000 },
-  { id: 2, title: "Movimiento 1", description: "Deposito de honorarios", amount: 500 },
-  { id: 3, title: "Movimiento 3", description: "Comida", amount: -100 },
-  { id: 4, title: "Movimiento 4", description: "Colegiatura", amount: 1000 },
-  { id: 5, title: "Movimiento 5", description: "Reparación equipo", amount: 1000 },
-]
+const movements = reactive([
+  {
+    id: 0,
+    title: "Movimiento 1",
+    description: "Lorem ipsum dolor sit amet",
+    amount: 100,
+    time: new Date("02-01-2022"),
+  },
+  {
+    id: 1,
+    title: "Movimiento 2",
+    description: "Lorem ipsum dolor sit amet",
+    amount: 200,
+    time: new Date("02-01-2022"),
+  },
+  {
+    id: 2,
+    title: "Movimiento 3",
+    description: "Lorem ipsum dolor sit amet",
+    amount: 500,
+    time: new Date("02-01-2022"),
+  },
+  {
+    id: 3,
+    title: "Movimiento 4",
+    description: "Lorem ipsum dolor sit amet",
+    amount: 200,
+    time: new Date("02-01-2022"),
+  },
+  {
+    id: 4,
+    title: "Movimiento 5",
+    description: "Lorem ipsum dolor sit amet",
+    amount: -400,
+    time: new Date("02-01-2022"),
+  },
+  {
+    id: 5,
+    title: "Movimiento 6",
+    description: "Lorem ipsum dolor sit amet",
+    amount: -600,
+    time: new Date("02-01-2022"),
+  },
+  {
+    id: 6,
+    title: "Movimiento 7",
+    description: "Lorem ipsum dolor sit amet",
+    amount: -300,
+    time: new Date("02-01-2022"),
+  },
+  {
+    id: 7,
+    title: "Movimiento 8",
+    description: "Lorem ipsum dolor sit amet",
+    amount: 100,
+    time: new Date("02-01-2022"),
+  },
+  {
+    id: 8,
+    title: "Movimiento 9",
+    description: "Lorem ipsum dolor sit amet",
+    amount: 300,
+    time: new Date("01-01-2022"),
+  },
+  {
+    id: 9,
+    title: "Movimiento 10",
+    description: "Lorem ipsum dolor sit amet",
+    amount: 500,
+    time: new Date("01-01-2022"),
+  },
+])
 
-const amounts = [100, 200, 500, 200, -400, -600, -300, 0, 300, 500]
+
+
+const amounts = computed(() => {
+  const lastDays = movements.filter(m => {
+    const today = new Date();
+    const oldDate = today.setDate(today.getDate() - 30);
+    return m.time <= oldDate
+  }).map(m => m.amount)
+
+  return lastDays.map((m, i) => {
+    const lastMovements = lastDays.slice(0, i + 1);
+    return lastMovements.reduce((suma, movement) => {
+      return suma + movement
+    }, 0)
+  })
+})
+
+const create = (movement) => {
+  movement.id = movements.length;
+  console.log(movement);
+  movements.push(movement);
+}
+
+const remove = (id) => {
+  const index = movements.findIndex(m => m.id === id);
+  movements.splice(index, 1);
+}
+
+const totalAmount = computed(() => {
+  return movements.reduce((suma, movement) => {
+    return suma + movement.amount
+  }, 0)
+})
+
+const select = (value) => {
+  amount.value = value;
+}
 
 </script>
 <style scoped>

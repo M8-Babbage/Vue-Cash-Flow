@@ -93,4 +93,8 @@ h4 {
 .green {
   color: green;
 }
+
+.action img {
+  cursor: pointer;
+}
 </style>

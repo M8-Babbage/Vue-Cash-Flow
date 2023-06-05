@@ -36,16 +36,22 @@
 <script setup>
 import { reactive, ref } from 'vue';
 import Modal from './Modal.vue';
+
+const emit = defineEmits(['create']);
+
 const showModal = ref(false);
 const form = reactive({
+  id: 0,
   title: '',
   amount: 0,
   description: '',
   movementType: 'Ingreso',
+  time: new Date(),
 });
 
 const submit = () => {
-  console.log(form);
+  form.amount = form.movementType === 'Ingreso' ? form.amount : -form.amount;
+  emit('create', form);
   showModal.value = false;
 }
 
